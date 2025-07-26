@@ -13,6 +13,6 @@ import com.example.BundleTrigger.Model_Layer.BundleDetails;
 public interface  BundleDetailsRepository extends JpaRepository<BundleDetails, UUID>{
     
 
-    List<String> findBundleByDateAndVehicleConfigId(Date date,int VehicleConfigId);
+    List<String> findBundleByCreatedDateAndVehicleConfigId_Id(Date createdDate,int vehicleConfigId);
 
 }

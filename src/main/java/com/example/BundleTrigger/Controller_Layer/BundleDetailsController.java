@@ -16,17 +16,17 @@ import com.example.BundleTrigger.Service_Layer.BundleDetailsService;
 @RestController
 public class BundleDetailsController {
 
-    private final BundleDetailsService bundleserive;
+    private final BundleDetailsService bundleservice;
 
     public BundleDetailsController(BundleDetailsService bundleservice){
-        this.bundleserive = bundleservice;
+        this.bundleservice = bundleservice;
     }
 
 
     @GetMapping("/Bundles")
     public ResponseEntity<ApiResponse<List<String>>> bundles(@RequestParam String battery, @RequestParam String motor, @RequestParam String vin_series, @RequestParam String variant,@RequestParam Date date){
 
-        List<String> rsp = bundleserive.getBundle(battery, motor, vin_series, variant, date);
+        List<String> rsp = bundleservice.getBundle(battery, motor, vin_series, variant, date);
 
         if(!rsp.isEmpty()){
             return ResponseEntity.ok(new ApiResponse<>(true,"Bundle Found",rsp));

@@ -33,7 +33,7 @@ public class BundleDetailsService {
         
         if(res.isPresent()){
             int vehicle_id = res.get().getId();
-            bundles = bundlerepo.findBundleByDateAndVehicleConfigId(date,vehicle_id);
+            bundles = bundlerepo.findBundleByCreatedDateAndVehicleConfigId_Id(date,vehicle_id);
         }
 
         return bundles;
