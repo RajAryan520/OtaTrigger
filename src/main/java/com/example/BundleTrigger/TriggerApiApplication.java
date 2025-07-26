@@ -18,6 +18,8 @@ public class TriggerApiApplication {
 	 * Develop endpoints for CRUD operation in table bundle_details and vehicle_config_details
 	 * Test all endpoints
 	 * Explore the authentication,cookies,accept header required in Api's.
+	 * Exception Handling (Global)
+	 * Unit and Integration Testing
 	 * 
 	 */
 

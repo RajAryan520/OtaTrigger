@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 /*
  * Id (int)
@@ -16,7 +17,7 @@ import jakarta.persistence.Table;
  */
 
 @Entity
-@Table(name="vehicle_config_details")
+@Table(name="vehicle_config_details",uniqueConstraints={@UniqueConstraint(columnNames={"battery","motor","vin_series","variant"})})
 public class VehicleConfigDetails {
 
     @Id
@@ -30,7 +31,7 @@ public class VehicleConfigDetails {
     @Column(name="motor",nullable=false)
     private String motor;
 
-    @Column(name="",nullable=false)
+    @Column(name="vin_series",nullable=false)
     private String vinSeries;
 
     @Column(name="variant",nullable=false)
@@ -58,9 +59,9 @@ public class VehicleConfigDetails {
     }
 
 
-    public void setId(int id){
-        this.id = id;
-    }
+    // public void setId(int id){
+    //     this.id = id;
+    // }
 
     public void setBattery(String battery){
         this.battery = battery;

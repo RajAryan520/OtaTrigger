@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 
 /*
@@ -23,7 +24,7 @@ import jakarta.persistence.Table;
  */
 
  @Entity
- @Table(name="bundle_details")
+ @Table(name="bundle_details",uniqueConstraints={@UniqueConstraint(columnNames={"created_date","vehicle_config_id","bundle"})})
 public class BundleDetails {
     
     @Id
@@ -31,8 +32,8 @@ public class BundleDetails {
     @Column(name="uuid",updatable=false,nullable=false)
     private UUID uuid;
     
-    @Column(name="date",nullable=false)
-    private Date date;
+    @Column(name="created_date",nullable=false)
+    private Date createdDate;
 
     @ManyToOne
     @JoinColumn(name="vehicle_config_id",nullable=false)
@@ -48,7 +49,7 @@ public class BundleDetails {
     }
 
     public Date getDate(){
-        return date;
+        return createdDate;
     }
 
     public VehicleConfigDetails getVehicleConfigId(){
@@ -64,8 +65,8 @@ public class BundleDetails {
         this.uuid = uuid;
     }
 
-    public void setDate(Date date){
-        this.date = date;
+    public void setDate(Date createdDate){
+        this.createdDate = createdDate;
     }
 
     public void setVehicleConfigId(VehicleConfigDetails vehicleConfigId){

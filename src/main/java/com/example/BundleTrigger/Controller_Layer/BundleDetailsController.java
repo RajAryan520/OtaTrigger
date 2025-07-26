@@ -24,9 +24,9 @@ public class BundleDetailsController {
 
 
     @GetMapping("/Bundles")
-    public ResponseEntity<ApiResponse<List<String>>> bundles(@RequestParam String battery, @RequestParam String motor, @RequestParam String vin_series, @RequestParam String varian,@RequestParam Date date){
+    public ResponseEntity<ApiResponse<List<String>>> bundles(@RequestParam String battery, @RequestParam String motor, @RequestParam String vin_series, @RequestParam String variant,@RequestParam Date date){
 
-        List<String> rsp = bundleserive.getBundle(battery, motor, vin_series, varian, date);
+        List<String> rsp = bundleserive.getBundle(battery, motor, vin_series, variant, date);
 
         if(!rsp.isEmpty()){
             return ResponseEntity.ok(new ApiResponse<>(true,"Bundle Found",rsp));
