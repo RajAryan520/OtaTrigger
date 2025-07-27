@@ -14,6 +14,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<?>> handleDuplicateConfig(DuplicateConfigException error){
             return  ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiResponse<>(false,error.getMessage(),null)); 
     } 
+
+
+    /*
+     * 
+     * Handle InternalServerError
+     * Handle Conflict 
+     */
     
     
 }

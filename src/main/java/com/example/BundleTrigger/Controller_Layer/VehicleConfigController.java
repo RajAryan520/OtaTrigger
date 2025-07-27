@@ -66,8 +66,6 @@ public class VehicleConfigController {
 
     }
 
-
-
     @GetMapping("/VehicleConfigId")
     public ResponseEntity<ApiResponse<Optional<Integer>>> vehicleConfigId(@RequestParam String battery, @RequestParam String motor, @RequestParam String vin_series, @RequestParam String variant){
 
@@ -75,7 +73,7 @@ public class VehicleConfigController {
 
         if(vehicle_id.isPresent()){
 
-            return ResponseEntity.ok(new ApiResponse<>(true,"Configuration Found",vehicle_id)); // uses DTO generic api response refer to ApiResponse class
+            return ResponseEntity.ok(new ApiResponse<>(true,"Configuration Found",vehicle_id)); // used DTO generic api response refer to ApiResponse class
         
         }
         else{
@@ -84,6 +82,8 @@ public class VehicleConfigController {
         }
         
     }
+
+     
 
 
 
