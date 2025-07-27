@@ -1,7 +1,5 @@
 package com.example.BundleTrigger.Controller_Layer;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -69,41 +67,20 @@ public class VehicleConfigController {
     }
 
 
-    
+
     @GetMapping("/VehicleConfigId")
-    public ResponseEntity<Map<String, Object>> vehicleConfigId(@RequestParam String battery, @RequestParam String motor, @RequestParam String vin_series, @RequestParam String variant){
+    public ResponseEntity<ApiResponse<Optional<Integer>>> vehicleConfigId(@RequestParam String battery, @RequestParam String motor, @RequestParam String vin_series, @RequestParam String variant){
 
-        Optional<Integer> vehcile_id = vehicleservice.isValidConfig(battery, motor, vin_series, variant);
+        Optional<Integer> vehicle_id = vehicleservice.isValidConfig(battery, motor, vin_series, variant);
 
-        Map<String,Object> rsp = new HashMap<>();
-        if(vehcile_id.isPresent()){
-            rsp.put("VehicleConfigId ", vehcile_id.get());
-            return ResponseEntity.ok(rsp);                      // Wrap the rsp to map for json formatting,  for large project use DTO class .
-        }
-        else{
-            rsp.put("Error", "Configuration not found");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(rsp);   
-        }
-        
-    }
+        if(vehicle_id.isPresent()){
 
-
-
-
-
-    @GetMapping("/VehicleConfigIdv1")
-    public ResponseEntity<ApiResponse<Optional<Integer>>> vehicleConfigIdv1(@RequestParam String battery, @RequestParam String motor, @RequestParam String vin_series, @RequestParam String variant){
-
-        Optional<Integer> vehcile_id = vehicleservice.isValidConfig(battery, motor, vin_series, variant);
-
-        if(vehcile_id.isPresent()){
-
-            return ResponseEntity.ok(new ApiResponse<>(true,"Configuration Found",vehcile_id)); // uses DTO generic api response refer to ApiResponse class
+            return ResponseEntity.ok(new ApiResponse<>(true,"Configuration Found",vehicle_id)); // uses DTO generic api response refer to ApiResponse class
         
         }
         else{
             String error = "Configuration not found";
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>(false,error,vehcile_id));   
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>(false,error,vehicle_id));   
         }
         
     }

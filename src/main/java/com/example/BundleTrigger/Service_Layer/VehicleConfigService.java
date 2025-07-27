@@ -29,9 +29,10 @@ public class VehicleConfigService {
 
     public Optional<Integer> isValidConfig(String battery,String motor, String vin_series, String variant){
 
-        String vin = vin_series.substring(0, 4);
+        // String vin = vin_series.substring(0, 4);
+        String vinSeries = vin_series.substring(0, 5); 
 
-        Optional<VehicleConfigDetails> result = vehiclerepo.findByBatteryAndMotorAndVinSeriesAndVariant(battery, motor, vin, variant);
+        Optional<VehicleConfigDetails> result = vehiclerepo.findByBatteryAndMotorAndVinSeriesAndVariant(battery, motor, vinSeries, variant);
 
         return result.map(VehicleConfigDetails::getId);
         
