@@ -29,7 +29,7 @@ public class BundleDetailsController {
     }
 
 
-    @GetMapping("/Bundles")
+    @GetMapping("/BundlesByConfig")
     public ResponseEntity<ApiResponse<List<String>>> bundles(@RequestParam String battery, @RequestParam String motor, @RequestParam String vin_series, @RequestParam String variant,@RequestParam Date date){
 
         List<String> rsp = bundleservice.getBundle(battery, motor, vin_series, variant, date);
@@ -67,10 +67,31 @@ public class BundleDetailsController {
  
     }
 
+    @GetMapping("/bundleByUUID")
+    public ResponseEntity<ApiResponse<?>> bundleByUUID(@RequestParam UUID uuid){
+
+        ApiResponse<?> rsp = bundleservice.bundleUUID(uuid);
+
+        return ResponseEntity.status(rsp.isSuccess() ? HttpStatus.OK : HttpStatus.NOT_FOUND).body(rsp);
+
+    }
+
+    // @GetMapping("/UUID")
+    // public ResponseEntity<ApiResponse<?>> uuidBundle(@RequestParam String bundle){
+
+    //     String uuid = bundlerepo.FindUUIDByBundle(bundle);
+
+
+    //     return ResponseEntity.status(rsp.isSuccess() ? HttpStatus.OK : HttpStatus.NOT_FOUND).body(rsp);
+
+    // }
+
+
+
 
     /*
-     * get uuid from bundle, for this bundle has to unique
-     * Create putmapping, getmapping for uuid
+     * get uuid from bundle, for this bundle has to unique -- done
+     * Create putmapping, getmapping for uuid 
      */
 
     

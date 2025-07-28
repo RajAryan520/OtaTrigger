@@ -61,7 +61,7 @@ public class BundleDetailsService {
         }
 
         BundleDetails new_bundle = new BundleDetails();
-        
+
         UUID new_uuid = UUID.randomUUID();
         new_bundle.setBundle(bundle);
         new_bundle.setDate(date);
@@ -74,6 +74,20 @@ public class BundleDetailsService {
         return new ApiResponse<>(true,"Bundle Added Successfully",new_bundle.getUuid());
 
     }
+
+
+    public ApiResponse<?> bundleUUID(UUID uuid){
+
+        Optional<BundleDetails> bundle = bundlerepo.findById(uuid);
+        if(bundle.isEmpty()){
+            return new ApiResponse<>(false,"No Bundle Found",null);
+        }
+
+        return new ApiResponse<>(true,"Bundle Found Successfully",bundle.get().getBundle());
+        
+    }
+
+    
 
 
     

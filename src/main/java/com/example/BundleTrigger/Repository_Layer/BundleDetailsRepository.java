@@ -15,4 +15,6 @@ public interface  BundleDetailsRepository extends JpaRepository<BundleDetails, U
 
     List<String> findBundleByCreatedDateAndVehicleConfigId_Id(Date createdDate,int vehicleConfigId);
 
+    String FindUUIDByBundle(String bundle);
+
 }

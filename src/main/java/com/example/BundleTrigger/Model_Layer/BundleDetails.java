@@ -24,7 +24,7 @@ import jakarta.persistence.UniqueConstraint;
  */
 
  @Entity
- @Table(name="bundle_details",uniqueConstraints={@UniqueConstraint(columnNames={"created_date","vehicle_config_id","bundle"})})
+ @Table(name="bundle_details",uniqueConstraints={@UniqueConstraint(columnNames={"created_date","vehicle_config_id","bundle"}),@UniqueConstraint(columnNames = {"bundle"})})
 public class BundleDetails {
     
     @Id
