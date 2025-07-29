@@ -32,23 +32,17 @@ public class BundleDetailsController {
     @GetMapping("/BundlesByConfig")
     public ResponseEntity<ApiResponse<List<String>>> bundles(@RequestParam String battery, @RequestParam String motor, @RequestParam String vin_series, @RequestParam String variant,@RequestParam Date date){
 
-        List<String> rsp = bundleservice.getBundle(battery, motor, vin_series, variant, date);
+        ApiResponse<List<String>> bundle_list = bundleservice.getBundle(battery, motor, vin_series, variant, date);
 
-        if(!rsp.isEmpty()){
-            return ResponseEntity.ok(new ApiResponse<>(true,"Bundle Found",rsp));
-        }
-        else{
-            String error = "No Bundle Found"; 
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>(false,error,rsp));
-        }
+        return ResponseEntity.status(bundle_list.isSuccess() ? HttpStatus.OK : HttpStatus.NOT_FOUND).body(bundle_list);
 
     }
 
 
     @PostMapping("/addBundle")
-    public ResponseEntity<ApiResponse<?>> addBundle(@RequestParam String battery, @RequestParam String motor, @RequestParam String vin_series, @RequestParam String variant,@RequestParam Date date) {
+    public ResponseEntity<ApiResponse<?>> addBundle(@RequestParam String battery, @RequestParam String motor, @RequestParam String vin_series, @RequestParam String variant,@RequestParam Date date,@RequestParam String bundle) {
     
-        ApiResponse<?> rsp = bundleservice.insertBundle(battery, motor, vin_series, variant, date, motor);
+        ApiResponse<?> rsp = bundleservice.insertBundle(battery, motor, vin_series, variant, date, bundle);
 
         return ResponseEntity.status(rsp.isSuccess() ? HttpStatus.OK : HttpStatus.NOT_FOUND).body(rsp);
 
@@ -72,6 +66,15 @@ public class BundleDetailsController {
 
         ApiResponse<?> rsp = bundleservice.bundleUUID(uuid);
 
+        return ResponseEntity.status(rsp.isSuccess() ? HttpStatus.OK : HttpStatus.NOT_FOUND).body(rsp);
+
+    }
+
+    @GetMapping("/uuidByBundle")
+    public ResponseEntity<ApiResponse<?>> uuidByBundle(@RequestParam String bundle){
+
+        ApiResponse<?> rsp = bundleservice.getUUIDByBundle(bundle);
+        
         return ResponseEntity.status(rsp.isSuccess() ? HttpStatus.OK : HttpStatus.NOT_FOUND).body(rsp);
 
     }

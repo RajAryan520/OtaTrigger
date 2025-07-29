@@ -2,6 +2,7 @@ package com.example.BundleTrigger.Repository_Layer;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,8 +14,8 @@ import com.example.BundleTrigger.Model_Layer.BundleDetails;
 public interface  BundleDetailsRepository extends JpaRepository<BundleDetails, UUID>{
     
 
-    List<String> findBundleByCreatedDateAndVehicleConfigId_Id(Date createdDate,int vehicleConfigId);
+    List<BundleDetails> findBundleByCreatedDateAndVehicleConfigId_Id(Date createdDate,int vehicleConfigId);
 
-    String FindUUIDByBundle(String bundle);
+    Optional<BundleDetails> findUUIDByBundle(String bundle);
 
 }

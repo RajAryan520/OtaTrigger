@@ -27,19 +27,18 @@ public class BundleDetailsService {
         this.bundlerepo = bundlerepo;
     }
 
-    public List<String> getBundle(String battery,String motor, String vin_series, String variant,Date date){
+    public ApiResponse<List<String>> getBundle(String battery,String motor, String vin_series, String variant,Date date){
 
         String vin = vin_series.substring(0,5);
         List<String> bundles = new ArrayList<>();
 
         Optional<VehicleConfigDetails> res = vehiclerepo.findByBatteryAndMotorAndVinSeriesAndVariant(battery, motor, vin, variant);        
         
-        if(res.isPresent()){
-            int vehicle_id = res.get().getId();
-            bundles = bundlerepo.findBundleByCreatedDateAndVehicleConfigId_Id(date,vehicle_id);
+        if(res.isEmpty()){
+            return new ApiResponse<>(false,"Bundle Not Found",bundles);
         }
 
-        return bundles;
+        return new ApiResponse<>(false,"Bundle Found Successfully",bundles);
         
     }
 
@@ -54,9 +53,11 @@ public class BundleDetailsService {
         
         int config_id = vehicle_detail.get().getId();
         
-        List<String> existing_bundle = bundlerepo.findBundleByCreatedDateAndVehicleConfigId_Id(date, config_id);
+        List<BundleDetails> existing_bundles = bundlerepo.findBundleByCreatedDateAndVehicleConfigId_Id(date, config_id);
 
-        if(existing_bundle.contains(bundle)){
+        boolean bundleExists = existing_bundles.stream().anyMatch(b -> b.getBundle().equals(bundle));
+
+        if(bundleExists){
                 return new ApiResponse<>(false,"Bundle already Exist",null);
         }
 
@@ -85,6 +86,18 @@ public class BundleDetailsService {
 
         return new ApiResponse<>(true,"Bundle Found Successfully",bundle.get().getBundle());
         
+    }
+
+    public ApiResponse<?> getUUIDByBundle(String bundle){
+
+        Optional<BundleDetails> bundle_detail = bundlerepo.findUUIDByBundle(bundle);
+
+        if(bundle_detail.isEmpty()){
+            return new ApiResponse<>(false,"No Bundle Found",null);
+        }
+
+        return new ApiResponse<>(true,"Bundle Found Successfully",bundle_detail.get().getUuid());
+
     }
 
     
