@@ -2,7 +2,6 @@ package com.example.BundleTrigger.Controller_Layer;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +40,8 @@ public class BundleDetailsController {
 
     @PostMapping("/addBundle")
     public ResponseEntity<ApiResponse<?>> addBundle(@RequestParam String battery, @RequestParam String motor, @RequestParam String vin_series, @RequestParam String variant,@RequestParam Date date,@RequestParam String bundle) {
-    
+        
+        System.out.println("Endpoint");
         ApiResponse<?> rsp = bundleservice.insertBundle(battery, motor, vin_series, variant, date, bundle);
 
         return ResponseEntity.status(rsp.isSuccess() ? HttpStatus.OK : HttpStatus.NOT_FOUND).body(rsp);
@@ -49,7 +49,7 @@ public class BundleDetailsController {
     }
 
     @DeleteMapping("/deleteBundle")
-    public ResponseEntity<ApiResponse<?>> deleteBundle(UUID uuid ){
+    public ResponseEntity<ApiResponse<?>> deleteBundle(String uuid ){
 
         if(!bundlerepo.existsById(uuid)){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>(false,"Bundle Not Found",null));
@@ -62,7 +62,7 @@ public class BundleDetailsController {
     }
 
     @GetMapping("/bundleByUUID")
-    public ResponseEntity<ApiResponse<?>> bundleByUUID(@RequestParam UUID uuid){
+    public ResponseEntity<ApiResponse<?>> bundleByUUID(@RequestParam String uuid){
 
         ApiResponse<?> rsp = bundleservice.bundleUUID(uuid);
 

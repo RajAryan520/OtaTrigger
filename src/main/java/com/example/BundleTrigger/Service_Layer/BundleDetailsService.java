@@ -35,17 +35,25 @@ public class BundleDetailsService {
         Optional<VehicleConfigDetails> res = vehiclerepo.findByBatteryAndMotorAndVinSeriesAndVariant(battery, motor, vin, variant);        
         
         if(res.isEmpty()){
-            return new ApiResponse<>(false,"Bundle Not Found",bundles);
+            return new ApiResponse<>(false,"Configuration Not Found",null);
+        }
+        
+        List<BundleDetails> bundle_detail = bundlerepo.findBundleByCreatedDateAndVehicleConfigId_Id(date, res.get().getId());
+
+        if(bundle_detail.isEmpty()){
+            return new ApiResponse<>(false,"Bundle Not Found",null);
         }
 
-        return new ApiResponse<>(false,"Bundle Found Successfully",bundles);
+        for(BundleDetails bundle : bundle_detail){
+            bundles.add(bundle.getBundle());
+        }
+        return new ApiResponse<>(true,"Bundle Found Successfully",bundles);
         
     }
 
     public ApiResponse<?> insertBundle(String battery,String motor, String vin_series, String variant,Date date,String bundle){
 
-        Optional<VehicleConfigDetails> vehicle_detail = vehiclerepo.findByBatteryAndMotorAndVinSeriesAndVariant(battery, motor, vin_series, variant);
-        
+        Optional<VehicleConfigDetails> vehicle_detail = vehiclerepo.findByBatteryAndMotorAndVinSeriesAndVariant(battery, motor, vin_series, variant);        
         
         if(vehicle_detail.isEmpty()){
             return new ApiResponse<>(false,"Configuration Not Found",null);
@@ -57,29 +65,28 @@ public class BundleDetailsService {
 
         boolean bundleExists = existing_bundles.stream().anyMatch(b -> b.getBundle().equals(bundle));
 
+
         if(bundleExists){
                 return new ApiResponse<>(false,"Bundle already Exist",null);
         }
 
         BundleDetails new_bundle = new BundleDetails();
 
-        UUID new_uuid = UUID.randomUUID();
+        String new_uuid = UUID.randomUUID().toString();
         new_bundle.setBundle(bundle);
         new_bundle.setDate(date);
         new_bundle.setVehicleConfigId(vehicle_detail.get());
         new_bundle.setUuid(new_uuid);
 
-
         bundlerepo.save(new_bundle);
-
         return new ApiResponse<>(true,"Bundle Added Successfully",new_bundle.getUuid());
 
     }
 
 
-    public ApiResponse<?> bundleUUID(UUID uuid){
+    public ApiResponse<?> bundleUUID(String uuid){
 
-        Optional<BundleDetails> bundle = bundlerepo.findById(uuid);
+        Optional<BundleDetails> bundle = bundlerepo.findById(uuid);        
         if(bundle.isEmpty()){
             return new ApiResponse<>(false,"No Bundle Found",null);
         }
@@ -99,12 +106,6 @@ public class BundleDetailsService {
         return new ApiResponse<>(true,"Bundle Found Successfully",bundle_detail.get().getUuid());
 
     }
-
-    
-
-
-    
-
 
     
 }

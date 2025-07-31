@@ -1,12 +1,9 @@
 package com.example.BundleTrigger.Model_Layer;
 
 import java.util.Date;
-import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -28,9 +25,9 @@ import jakarta.persistence.UniqueConstraint;
 public class BundleDetails {
     
     @Id
-    @GeneratedValue(strategy= GenerationType.UUID)
+    // @GeneratedValue(strategy= GenerationType.UUID)
     @Column(name="uuid",updatable=false,nullable=false)
-    private UUID uuid;
+    private String uuid;
     
     @Column(name="created_date",nullable=false)
     private Date createdDate;
@@ -45,7 +42,7 @@ public class BundleDetails {
     
     
     public String getUuid() {
-        return uuid.toString();
+        return uuid;
     }
 
     public Date getDate(){
@@ -61,7 +58,7 @@ public class BundleDetails {
     }
 
 
-    public void setUuid(UUID uuid){
+    public void setUuid(String uuid){
         this.uuid = uuid;
     }
 
