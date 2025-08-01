@@ -5,5 +5,7 @@ public class DuplicateConfigException extends RuntimeException{
     public DuplicateConfigException(String error){
         super(error);
     }
+
+    
     
 }
